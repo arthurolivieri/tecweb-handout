@@ -1,4 +1,5 @@
-from utils import adiciona_anotacao, build_response, load_data, load_template, load_data
+from utils import adiciona_anotacao, build_response
+from utils import load_data, load_template
 from urllib.parse import unquote_plus
 
 def index(request):
@@ -16,16 +17,14 @@ def index(request):
         # Dica: use o método split da string e a função unquote_plus
         for chave_valor in corpo.split('&'):
             # AQUI É COM VOCÊ
-            chave_valor = chave_valor.split('=')
-            chave = unquote_plus(chave_valor[0], encoding='utf-8', errors='replace')
-            valor = unquote_plus(chave_valor[1], encoding='utf-8', errors='replace')
-            params[chave] = valor
-    
+            frase = unquote_plus(chave_valor)
+            frase = frase.split('=')
+            params[frase[0]] = frase[1]
         adiciona_anotacao('notes.json', params)
         return build_response(code=303, reason='See Other', headers='Location: /')
-
-    # Cria uma lista de <li>'s para cada anotação
-    # Se tiver curiosidade: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
+    
+    
+    
     note_template = load_template('components/note.html')
     notes_li = [
         note_template.format(title=dados['titulo'], details=dados['detalhes'])
@@ -33,9 +32,6 @@ def index(request):
     ]
     notes = '\n'.join(notes_li)
 
+    corpo = load_template('index.html').format(notes=notes)
     
-    return build_response()
-    #return load_template('index.html').format(notes=notes).encode()
-
-
-    
+    return build_response(body=corpo)

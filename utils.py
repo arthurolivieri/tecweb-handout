@@ -34,5 +34,7 @@ def adiciona_anotacao(arq, nota):
     
 
 def build_response(body='', code=200, reason='OK', headers=''):
-    response = 'HTTP/1.1 ' + str(code) + " " + reason + "\n" + headers + "\n" + body
+    if headers != '':
+        headers = '\n' + headers
+    response = 'HTTP/1.1 ' + str(code) + ' ' + reason + headers + '\n\n' + body
     return response.encode()
