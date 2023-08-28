@@ -1,5 +1,6 @@
 import os
 import json
+from database import Database, Note
 
 def extract_route(req):
     req = req.split(" ")
@@ -12,11 +13,15 @@ def read_file(path):
         content = file.read()
     return content
 
-def load_data(arq):
-    path = "data/" + arq
-    with open(path, 'r') as file:
-        dic = json.load(file)
-    return dic
+def load_data(db_name):
+    db = Database(db_name)
+
+    db.add(Note(title='Pão doce', content='Abra o pão e coloque o seu suco em pó favorito.'))
+    db.add(Note(title=None, content='Lembrar de tomar água'))
+
+    notes = db.get_all()
+
+    return notes
 
 def load_template(nome):
     path = "templates/" + nome

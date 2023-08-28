@@ -7,7 +7,7 @@ class Database:
         self.conn.execute('CREATE TABLE IF NOT EXISTS note (id INTEGER PRIMARY KEY, title TEXT, content TEXT NOT NULL UNIQUE);')
 
     def add(self, note):
-        self.query = "INSERT INTO note (title,content) VALUES (?,?);"
+        self.query = "INSERT OR REPLACE INTO note (title,content) VALUES (?,?);"
         self.conn.execute(self.query, (note.title, note.content))
         self.conn.commit()
 
