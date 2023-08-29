@@ -29,13 +29,21 @@ def load_template(nome):
         content = file.read()
     return content
 
-def adiciona_anotacao(arq, nota):
+def adiciona_anotacao(db_name, nota):
+    db = Database(db_name)
+    titulo = nota['titulo']
+    conteudo = nota['detalhes']
+    db.add(Note(title=titulo, content=conteudo))
+
+
+    '''
     data = load_data(arq) #dicionario
     data.append(nota)
     path = 'data/' + arq
     with open(path, 'w') as file:
         json.dump(data, file)
     return data
+    '''
     
 
 def build_response(body='', code=200, reason='OK', headers=''):

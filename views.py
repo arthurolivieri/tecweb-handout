@@ -20,7 +20,7 @@ def index(request):
             frase = unquote_plus(chave_valor)
             frase = frase.split('=')
             params[frase[0]] = frase[1]
-        adiciona_anotacao('notes.json', params)
+        adiciona_anotacao('banco', params)
         return build_response(code=303, reason='See Other', headers='Location: /')
     
     
