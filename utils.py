@@ -35,16 +35,10 @@ def adiciona_anotacao(db_name, nota):
     conteudo = nota['detalhes']
     db.add(Note(title=titulo, content=conteudo))
 
-
-    '''
-    data = load_data(arq) #dicionario
-    data.append(nota)
-    path = 'data/' + arq
-    with open(path, 'w') as file:
-        json.dump(data, file)
-    return data
-    '''
     
+def deleta_anotacao(db_name, id):
+    db = Database(db_name)
+    db.delete(id)
 
 def build_response(body='', code=200, reason='OK', headers=''):
     if headers != '':

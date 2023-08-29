@@ -1,10 +1,10 @@
-from utils import adiciona_anotacao, build_response
+from utils import adiciona_anotacao, build_response, deleta_anotacao
 from utils import load_data, load_template
 from urllib.parse import unquote_plus
 
 def index(request):
     # A string de request sempre começa com o tipo da requisição (ex: GET, POST)
-    if request.startswith('POST'):
+    if request.startswith('POST / HTTP'):
         request = request.replace('\r', '')  # Remove caracteres indesejados
         # Cabeçalho e corpo estão sempre separados por duas quebras de linha
         partes = request.split('\n\n')
@@ -22,12 +22,20 @@ def index(request):
             params[frase[0]] = frase[1]
         adiciona_anotacao('banco', params)
         return build_response(code=303, reason='See Other', headers='Location: /')
+
+    elif request.startswith('POST /delete'):
+        request = request.replace('\r', '')  # Remove caracteres indesejados
+        # Cabeçalho e corpo estão sempre separados por duas quebras de linha
+        partes = request.split('\n')
+        id = partes[-1].split('=')[-1]
+        deleta_anotacao('banco', id)
+        return build_response(code=303, reason='See Other', headers='Location: /')
     
     
     
     note_template = load_template('components/note.html')
     notes_li = [
-        note_template.format(title=note.title, details=note.content)
+        note_template.format(id=note.id, title=note.title, details=note.content)
         for note in load_data('banco')
     ]
     notes = '\n'.join(notes_li)
