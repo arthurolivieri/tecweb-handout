@@ -24,14 +24,18 @@
         </div>
       
         <main class="container">
-            <form method="post" class="form-card">
+            <form method="post" action="/update" class="form-card">
+            <input type="hidden" name="id" value="{id}">
             <input id="titulo" type="text" name="titulo" class="form-card-title" value="{title}"/>
             <textarea
                 class="autoresize"
                 name="detalhes"
                 id="detalhes"
-              >{details}</textarea>
-            <button class="btn" type="submit">Criar</button>
+            >{details}</textarea>
+            <button class="btn" type="submit">Salvar</button>
+                <form method="get" class="form-card">
+                    <button class="btn" type="submit">Cancelar</button>
+                </form>
             </form>
         </main>
 

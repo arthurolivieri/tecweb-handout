@@ -1,4 +1,4 @@
-from utils import adiciona_anotacao, build_response, deleta_anotacao
+from utils import adiciona_anotacao, build_response, deleta_anotacao, edita_anotacao
 from utils import load_data, load_template
 from urllib.parse import unquote_plus
 
@@ -31,7 +31,7 @@ def index(request):
         deleta_anotacao('banco', id)
         return build_response(code=303, reason='See Other', headers='Location: /')
 
-    elif request.startswith('GET /update'):
+    elif request.startswith('GET /edit'):
         request = request.replace('\r', '')  # Remove caracteres indesejados
         # Cabeçalho e corpo estão sempre separados por duas quebras de linha
         parte = request.split('\n')[0]
@@ -46,11 +46,27 @@ def index(request):
             params[frase[0]] = frase[1]
 
         corpo = load_template('edit.html')
+        id = params['id']
         title = params['title']
         details = params['details']
-        corpo = corpo.format(title=title, details=details)
+        corpo = corpo.format(id=id, title=title, details=details)
 
         return build_response(body=corpo)
+
+    elif request.startswith('POST /update'):
+        request = request.replace('\r', '')  # Remove caracteres indesejados
+        # Cabeçalho e corpo estão sempre separados por duas quebras de linha
+        partes = request.split('\n\n')
+
+        corpo = partes[-1]
+        params = {}
+        for chave_valor in corpo.split('&'):
+            # AQUI É COM VOCÊ
+            frase = unquote_plus(chave_valor)
+            frase = frase.split('=')
+            params[frase[0]] = frase[1]
+        print(params)
+        edita_anotacao('banco', params['id'], params['titulo'], params['detalhes'])
     
     
     

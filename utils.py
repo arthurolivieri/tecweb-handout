@@ -15,10 +15,6 @@ def read_file(path):
 
 def load_data(db_name):
     db = Database(db_name)
-
-    db.add(Note(title='Pão doce', content='Abra o pão e coloque o seu suco em pó favorito.'))
-    db.add(Note(title=None, content='Lembrar de tomar água'))
-
     notes = db.get_all()
 
     return notes
@@ -39,6 +35,11 @@ def adiciona_anotacao(db_name, nota):
 def deleta_anotacao(db_name, id):
     db = Database(db_name)
     db.delete(id)
+
+def edita_anotacao(db_name, id, title, details):
+    db = Database(db_name)
+    nota = Note(id=id, title=title, content=details)
+    db.update(nota)
 
 def build_response(body='', code=200, reason='OK', headers=''):
     if headers != '':
