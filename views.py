@@ -30,6 +30,27 @@ def index(request):
         id = partes[-1].split('=')[-1]
         deleta_anotacao('banco', id)
         return build_response(code=303, reason='See Other', headers='Location: /')
+
+    elif request.startswith('GET /update'):
+        request = request.replace('\r', '')  # Remove caracteres indesejados
+        # Cabeçalho e corpo estão sempre separados por duas quebras de linha
+        parte = request.split('\n')[0]
+        parte = parte.split('?')[1]
+        parte = parte.split(' ')[0]
+
+        params = {}
+        for chave_valor in parte.split('&'):
+            # AQUI É COM VOCÊ
+            frase = unquote_plus(chave_valor)
+            frase = frase.split('=')
+            params[frase[0]] = frase[1]
+
+        corpo = load_template('edit.html')
+        title = params['title']
+        details = params['details']
+        corpo = corpo.format(title=title, details=details)
+
+        return build_response(body=corpo)
     
     
     

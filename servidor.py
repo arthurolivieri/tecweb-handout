@@ -26,7 +26,7 @@ while True:
     filepath = CUR_DIR / route
     if filepath.is_file():
         response = build_response() + read_file(filepath)
-    elif route == '' or route == 'delete':
+    elif route == '' or route == 'delete' or route.startswith('update'):
         response = index(request)
     else:
         response = build_response()
