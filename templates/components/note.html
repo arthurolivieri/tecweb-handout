@@ -5,14 +5,20 @@
             {details}
           </p>
         </div>
-        <form action="/delete" method="post">
+        <div class="container-buttons">
+          <form action="/delete" method="post">
+              <input type="hidden" name="id" value="{id}">
+              <button type="submit" class="icon-button">
+                <i class="fas fa-trash"></i>
+              </button>
+          </form>
+          <form action="/edit" method="get">
             <input type="hidden" name="id" value="{id}">
-            <button type="submit">Deletar</button>
-        </form>
-        <form action="/edit" method="get">
-          <input type="hidden" name="id" value="{id}">
-          <input type="hidden" name="title" value="{title}">
-          <input type="hidden" name="details" value="{details}">
-          <button type="submit">Editar</button>
-        </form>
+            <input type="hidden" name="title" value="{title}">
+            <input type="hidden" name="details" value="{details}">
+            <button type="submit" class="icon-button">
+              <i class="fas fa-edit"></i>
+            </button>
+          </form>
+        </div>
     </div>
